@@ -30,35 +30,66 @@
         /* 2. Layout & Container */
         .container {
             max-width: 900px;
-            margin: 20px auto;
+            margin: 0 auto; /* Margin top is handled by hero section */
             padding: 0 20px;
         }
 
-        /* 3. Header */
-        .header {
-            background: var(--primary-color);
-            color: white;
+        /* 3. NEW: Video Hero Section */
+        .hero-section {
+            position: relative;
+            height: 80vh; /* 80% of the viewport height */
+            display: flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
-            padding: 40px 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
+            color: white;
+            overflow: hidden; /* Ensures video doesn't spill out */
         }
 
-        .header h1 {
+        #background-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -2; /* Sits behind all content */
+        }
+        
+        /* Overlay for text readability */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 46, 0.6); /* Dark semi-transparent overlay */
+            z-index: -1;
+        }
+
+        .hero-content h1 {
             margin: 0;
             font-family: var(--heading-font);
-            font-size: 2.8em; /* Slightly larger for the new name */
+            font-size: 3.5em;
             font-weight: 700;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
         }
 
-        .header p {
+        .hero-content p {
             margin: 10px 0 0;
-            font-size: 1.2em;
+            font-size: 1.3em;
             opacity: 0.9;
             font-style: italic;
         }
 
-        /* 4. Sections & Cards */
+        /* 4. Sections & Cards (Now starts below the hero) */
+        main {
+            padding-top: 40px; /* Space between hero and first card */
+        }
+        
         section {
             background: var(--card-bg);
             padding: 30px;
@@ -106,12 +137,22 @@
 
         /* Media Query for larger screens (tablets and desktops) */
         @media (min-width: 768px) {
-            .header h1 {
-                font-size: 3.5em;
+            .hero-content h1 {
+                font-size: 4.5em;
             }
             
             .business-case-grid {
                 grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* Media Query for smaller screens (mobile) */
+        @media (max-width: 767px) {
+            .hero-content h1 {
+                font-size: 2.5em;
+            }
+            .hero-content p {
+                font-size: 1.1em;
             }
         }
 
@@ -119,13 +160,18 @@
 </head>
 <body>
 
-    <div class="container">
-
-        <header class="header">
+    <header class="hero-section">
+        <video playsinline autoplay muted loop id="background-video">
+            <source src="clip.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="hero-content">
             <h1>wOrK It Out</h1>
             <p>The IKO Employee Wellness Initiative</p>
-        </header>
+        </div>
+    </header>
 
+    <div class="container">
         <main>
             <section id="opportunity">
                 <h2>The Strategic Opportunity</h2>
@@ -171,7 +217,6 @@
                 </ul>
             </section>
         </main>
-
     </div>
 
 </body>
